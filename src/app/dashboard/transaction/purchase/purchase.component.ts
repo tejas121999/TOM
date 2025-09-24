@@ -168,7 +168,7 @@ export class PurchaseComponent implements OnInit {
           console.log("Calculated Lager Amount:", calculatedAmount);
           lagersGroup
             .get("amount")
-            ?.setValue(calculatedAmount, { emitEvent: false });
+            ?.setValue(calculatedAmount.toString(), { emitEvent: false });
         }
       });
 
