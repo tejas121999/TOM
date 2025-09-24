@@ -1,0 +1,113 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-button fill="clear" routerLink="/dashboard/master/voucher-type-list">
+                <span slot="icon-only">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <path d="M14.25 9H3.75" stroke="white" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M9 14.25L3.75 9L9 3.75" stroke="white" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </span>
+            </ion-button>
+            <ion-title class="toolbar-title-text">Voucher Type</ion-title>
+        </ion-buttons>
+        <ion-spinner *ngIf="isLoading" slot="end"></ion-spinner>
+        <ion-buttons slot="end" *ngIf="!isLoading">
+            <ion-button (click)="createVoucherType()">
+                Save
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="centered-form-wrapper">
+        <form [formGroup]="voucherTypeForm">
+            <ion-item class="internal-form-item">
+                <ion-label class="internal-form-label" position="floating">Name *</ion-label>
+                <ion-input formControlName="name"></ion-input>
+                <div *ngIf="voucherTypeForm.get('name')?.invalid && voucherTypeForm.get('name')?.touched"
+                    class="error-message">
+                    Name is required and must be at least 3 characters.
+                </div>
+            </ion-item>
+            <ion-item class="internal-form-item">
+                <ion-label class="internal-form-label" position="floating">Alias </ion-label>
+                <ion-input formControlName="alias"></ion-input>
+            </ion-item>
+            <ion-item class="internal-form-item">
+                <ion-label class="internal-form-label" position="floating">Voucher Type </ion-label>
+                <ion-select formControlName="voucherType" interface="alert">
+                    <ion-select-option *ngFor="let type of voucherTypes" [value]="type.value">{{ type.name
+                        }}</ion-select-option>
+                </ion-select>
+                <div *ngIf="voucherTypeForm.get('voucherType')?.invalid && voucherTypeForm.get('voucherType')?.touched"
+                    class="error-message">
+                    Voucher Type is required.
+                </div>
+            </ion-item>
+            <ion-item class="internal-form-item">
+                <ion-label class="internal-form-label" position="floating">Abbreviation </ion-label>
+                <ion-input formControlName="abbreviation"></ion-input>
+                <div *ngIf="voucherTypeForm.get('abbreviation')?.invalid && voucherTypeForm.get('abbreviation')?.touched"
+                    class="error-message">
+                    Abbreviation is required.
+                </div>
+            </ion-item>
+            <ion-item class="internal-form-item">
+                <ion-label class="internal-form-label" position="floating">Activate Voucher </ion-label>
+                <ion-select formControlName="activeVoucher" interface="alert">
+                    <ion-select-option value="Yes">Yes</ion-select-option>
+                    <ion-select-option value="No">No</ion-select-option>
+                </ion-select>
+                <div *ngIf="voucherTypeForm.get('activeVoucher')?.invalid && voucherTypeForm.get('activeVoucher')?.touched"
+                    class="error-message">
+                    Activate Voucher is required.
+                </div>
+            </ion-item>
+            <ion-item class="internal-form-item">
+                <ion-label class="internal-form-label" position="floating">Voucher Numbering Method</ion-label>
+                <ion-select formControlName="voucherNumberingMethod" interface="alert">
+                    <ion-select-option value="Automatic">Automatic</ion-select-option>
+                    <ion-select-option value="Automatic (Manual Override)">Automatic (Manual
+                        Override)</ion-select-option>
+                    <ion-select-option value="Manual">Manual</ion-select-option>
+                    <ion-select-option value="Multi-User Auto">Multi-User Auto</ion-select-option>
+                    <ion-select-option value="None">None</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div *ngIf="voucherTypeForm.get('voucherNumberingMethod')?.value !== 'None'">
+                <ion-item *ngIf="voucherTypeForm.get('voucherNumberingMethod')?.value === 'Automatic (Manual Override)'"
+                    class="internal-form-item">
+                    <ion-label class="internal-form-label" position="floating">Preventing Duplicate Voucher Creation
+                    </ion-label>
+                    <ion-select formControlName="preventingDuplicateVoucherCreation" interface="alert">
+                        <ion-select-option value="Yes">Yes</ion-select-option>
+                        <ion-select-option value="No">No</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item *ngIf="voucherTypeForm.get('voucherNumberingMethod')?.value === 'Automatic (Manual Override)'"
+                    class="internal-form-item">
+                    <ion-label class="internal-form-label" position="floating">Numbering Behavior </ion-label>
+                    <ion-select formControlName="numberingBehavior" interface="alert">
+                        <ion-select-option value="Renumber Vouchers">Renumber Vouchers</ion-select-option>
+                        <ion-select-option value="Retain Original Voucher No.">Retain Original Voucher
+                            No.</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item
+                    *ngIf="voucherTypeForm.get('preventingDuplicateVoucherCreation')?.value === 'Automatic (Manual Override)'"
+                    class="internal-form-item">
+                    <ion-label class="internal-form-label" position="floating">Additional Numbering Details</ion-label>
+                    <ion-input formControlName="additionalNumberingDetails"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="voucherTypeForm.get('numberingBehavior')?.value === 'Retain Original Voucher No.'"
+                    class="internal-form-item">
+                    <ion-label class="internal-form-label" position="floating">Retain Original Voucher No. </ion-label>
+                    <ion-input formControlName="retainOriginalVoucherNo"></ion-input>
+                </ion-item>
+            </div>
+        </form>
+    </div>
+</ion-content>

@@ -1,0 +1,32 @@
+/* Godown component styles */
+
+
+/* Additional Details label style */
+.godown-additional-details-label {
+    color: #000 !important;
+    font-size: 13px !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    line-height: normal !important;
+}
+
+/* Square style for ion-checkbox */
+.godown-checkbox {
+    --size: 14px;
+    width: 14px;
+    height: 14px;
+    --border-radius: 0;
+    --checkmark-color: #ffffff;
+    --background-checked: #034099;
+}
+
+/* Make label use custom style when checkbox is checked */
+ion-item .godown-checkbox[aria-checked="true"]~ion-label,
+ion-item .godown-checkbox:checked~ion-label {
+    color: #000 !important;
+    font-family: "Open Sans", sans-serif !important;
+    font-size: 13px !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    line-height: normal !important;
+}

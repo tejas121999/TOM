@@ -1,0 +1,106 @@
+<ion-content class="login-content">
+  <img src="assets/banner-img2.png" alt="Login Banner" class="login-banner-responsive" />
+  <div class="login-center-wrapper">
+    <form [formGroup]="loginForm" class="login-form" (ngSubmit)="onLogin()"
+      *ngIf="(!usePin && !isPinEnabled) || forgotPinClicked">
+      <h2 class="login-title">Welcome back!</h2>
+      <div class="login-field">
+        <label>Email</label>
+        <input type="email" formControlName="user_name" autocomplete="username"
+          [class.error]="user_name?.invalid && user_name?.touched" />
+        <div class="error-message" *ngIf="user_name?.invalid && user_name?.touched">
+          <span *ngIf="user_name?.errors?.['required']">Email is required</span>
+          <span *ngIf="user_name?.errors?.['email']">Please enter a valid email</span>
+        </div>
+      </div>
+      <div class="login-field password-field">
+        <label>Password</label>
+        <div class="password-input-wrapper">
+          <input [type]="showPassword ? 'text' : 'password'" formControlName="user_password"
+            autocomplete="current-password" [class.error]="user_password?.invalid && user_password?.touched" />
+          <button type="button" class="show-password-btn" (click)="toggleShowPassword()">
+            <ion-icon [name]="showPassword ? 'eye-off' : 'eye'" slot="icon-only"></ion-icon>
+          </button>
+        </div>
+        <div class="error-message" *ngIf="user_password?.invalid && user_password?.touched">
+          <span *ngIf="user_password?.errors?.['required']">Password is required</span>
+          <span *ngIf="user_password?.errors?.['minlength']">Password must be at least 6 characters</span>
+        </div>
+        <div class="login-actions">
+          <a class="forgot-password">Forgot Password</a>
+          <a class="use-pin" (click)="useFingerprint()">Use
+            Fingerprint</a>
+        </div>
+      </div>
+      <button type="submit" class="login-btn" [disabled]="loginForm.invalid">LOGIN</button>
+      <!-- <button type="button" class="login-btn" *ngIf="isFingerprintAvailable" (click)="useFingerprint()">Use
+        Fingerprint</button> -->
+      <button type="button" class="login-btn" *ngIf="isPinEnabled" (click)="showPinView()">Use Pin</button>
+      <div class="or-divider">
+        <span>OR</span>
+      </div>
+      <button type="button" class="google-signin-btn">
+        <img src="assets/google.svg" alt="Google" class="google-logo" />
+        <span>Sign in with Google</span>
+      </button>
+      <div class="signup-link">
+        Don't have an account? <a href="#" class="signup-anchor">Sign up</a>
+      </div>
+      <div class="signup-link-space"></div>
+    </form>
+
+    <!-- use pin view -->
+    <div class="pin-container" *ngIf="(usePin || isPinEnabled) && !forgotPinClicked">
+      <div class="pin-title">Enter 4-digit PIN</div>
+
+      <div class="pin-input-container">
+        <input type="password" maxlength="1" class="pin-input" readonly [value]="enteredPin[0]">
+        <input type="password" maxlength="1" class="pin-input" readonly [value]="enteredPin[1]">
+        <input type="password" maxlength="1" class="pin-input" readonly [value]="enteredPin[2]">
+        <input type="password" maxlength="1" class="pin-input" readonly [value]="enteredPin[3]">
+      </div>
+      <div>
+        <span style=" 
+        color: #083D7C;font-family: 
+        Open Sans;font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;" (click)="onForgotPin()">
+          Forgot PIN?
+        </span>
+      </div>
+
+      <div class="keypad">
+        <div class="keypad-row">
+          <button class="keypad-button" (click)="addNumber('1')">1</button>
+          <button class="keypad-button" (click)="addNumber('2')">2</button>
+          <button class="keypad-button" (click)="addNumber('3')">3</button>
+        </div>
+        <div class="keypad-row">
+          <button class="keypad-button" (click)="addNumber('4')">4</button>
+          <button class="keypad-button" (click)="addNumber('5')">5</button>
+          <button class="keypad-button" (click)="addNumber('6')">6</button>
+        </div>
+        <div class="keypad-row">
+          <button class="keypad-button" (click)="addNumber('7')">7</button>
+          <button class="keypad-button" (click)="addNumber('8')">8</button>
+          <button class="keypad-button" (click)="addNumber('9')">9</button>
+        </div>
+        <div class="keypad-row">
+          <button class="keypad-button delete" (click)="deleteNumber()">
+            <ion-icon name="backspace-outline"></ion-icon>
+          </button>
+          <button class="keypad-button" (click)="addNumber('0')">0</button>
+          <button class="keypad-button submit" (click)="submitPin()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="92" height="48" viewBox="0 0 92 48" fill="none">
+              <rect width="92" height="48" rx="24" fill="#034099" />
+              <path
+                d="M41.6224 26.8065L33.6556 18.9587L31 21.5746L41.6224 32.0385L64.3846 9.616L61.729 7L41.6224 26.8065Z"
+                fill="white" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

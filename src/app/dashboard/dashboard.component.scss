@@ -1,0 +1,210 @@
+// Margin for master section items and container
+// ion-header,
+// ion-toolbar[color="primary"],
+// ion-toolbar {
+//   --background: #034099 !important;
+//   --ion-color-base: #034099 !important;
+//   --border-color: transparent !important;
+// }
+
+.active-button {
+  width: 85px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 20.5px;
+  background: #FFF;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: anchor-center;
+
+}
+
+.button-label {
+  color: #000;
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.master-margin {
+  margin-left: 10px !important;
+}
+
+.disc-margin {
+  margin-left: 30px !important;
+}
+
+// Merged from dashboard.component.css
+.sidebar-icon-wrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.sidebar-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.sidebar-rupee {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  font-size: 22px;
+  color: #083D7C;
+  line-height: 22px;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+}
+
+.sidebar-icon-themes {
+  filter: invert(24%) sepia(97%) saturate(2092%) hue-rotate(199deg) brightness(92%) contrast(101%);
+}
+
+// Sidebar menu item custom style
+.sidebar-menu-item {
+  color: #083D7C !important;
+  font-family: "Open Sans", sans-serif !important;
+  font-size: 14px !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: normal !important;
+}
+
+/* Sidebar menu styles to match the provided image */
+.menu-toolbar {
+  --background: #083d7c !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  min-height: 195px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+
+.menu-header-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 24px 0 16px 0;
+}
+
+.menu-avatar {
+  margin-bottom: 16px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+  border: 3px solid #fff;
+}
+
+.menu-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.menu-title {
+  margin-bottom: 2px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff !important;
+  text-align: center;
+  letter-spacing: 0.5px;
+  margin-top: 8px;
+}
+
+.menu-note {
+  color: #e0eafc !important;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 400;
+  margin-bottom: 0;
+  margin-top: 2px;
+}
+
+.menu-content {
+  --background: #fff !important;
+}
+
+.menu-content ion-list {
+  margin-top: 135px;
+}
+
+ion-tab-bar {
+  --background: #083D7C !important;
+}
+
+
+.square-box-div {
+  width: 22px;
+  height: 20.204px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid #FFF;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.activate-box-div {
+  width: 22px;
+  height: 20.204px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid #083D7C;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plus-icon {
+  width: 14.769px;
+  height: 33.231px;
+  flex-shrink: 0;
+  color: #FFF;
+  font-family: "Open Sans", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.active-plus-icon {
+  width: 14.769px;
+  height: 33.231px;
+  flex-shrink: 0;
+  color: #083D7C;
+  font-family: "Open Sans", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+@media (max-width: 600px) {
+  .menu-content ion-list {
+    margin-top: 135px; // Smaller margin for mobile screens
+  }
+}

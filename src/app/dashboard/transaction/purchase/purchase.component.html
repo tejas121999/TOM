@@ -1,0 +1,241 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" routerLink="/dashboard/transaction/purchase-list">
+        <span slot="icon-only">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M14.25 9H3.75" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M9 14.25L3.75 9L9 3.75" stroke="white" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </span>
+      </ion-button>
+      <ion-title class="toolbar-title-text">Purchase</ion-title>
+    </ion-buttons>
+    <ion-spinner *ngIf="isLoading" slot="end"></ion-spinner>
+    <ion-buttons slot="end" *ngIf="!isLoading">
+      <ion-button (click)="addPurchase()">
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="purchaseForm">
+    <div class="centered-form-wrapper">
+      <!-- Example fields, adapt as needed for cost center -->
+      <ion-item class="internal-form-item"
+        [class.invalid-item]="purchaseForm.get('changeMode')?.invalid && (purchaseForm.get('changeMode')?.touched || purchaseForm.get('changeMode')?.dirty)">
+        <ion-label class="internal-form-label" position="floating">Change Mode *</ion-label>
+        <ion-select formControlName="changeMode" interface="alert">
+          <ion-select-option value="Item Invoice">Item Invoice</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="internal-form-item">
+        <ion-label class="internal-form-label" position="floating">Purchase Voucher</ion-label>
+        <ion-select formControlName="purchaseLedger" interface="alert">
+          <ion-select-option *ngFor="let ledger of purchaseLedger" [value]="ledger.ledger_name">
+            {{ ledger.voucher_type_name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="internal-form-item">
+        <ion-label class="internal-form-label" position="floating">Purchase No</ion-label>
+        <ion-input formControlName="purchaseNo"></ion-input>
+      </ion-item>
+
+      <ion-item class="internal-form-item">
+        <ion-label class="internal-form-label" position="floating">Supplier Invoice No</ion-label>
+        <ion-input formControlName="supplierInvoiceNo"></ion-input>
+      </ion-item>
+
+      <ion-item class="internal-form-item">
+        <ion-label class="internal-form-label" position="floating">Date</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY" formControlName="date"></ion-datetime>
+      </ion-item>
+
+      <ion-item class="internal-form-item">
+        <ion-label class="internal-form-label" position="floating">Bill Date</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY" formControlName="billDate"></ion-datetime>
+      </ion-item>
+
+      <ion-item class="internal-form-item">
+        <ion-label class="internal-form-label" position="floating">Party Name</ion-label>
+        <ion-select formControlName="partyName" interface="alert">
+          <ion-select-option *ngFor="let supplier of supplierData" [value]="supplier.ledger_name">
+            {{ supplier.ledger_name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="internal-form-item">
+        <ion-label class="internal-form-label" position="floating">Cost Center</ion-label>
+        <ion-select formControlName="costCenter" interface="alert">
+          <ion-select-option *ngFor="let center of costCenter" [value]="center.ledger_name">
+            {{ center.costcenter_name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <!-- Add Item -->
+      <ion-item-group>
+        <ion-item detail="false" lines="none" button routerLink="/dashboard/transaction/add-item">
+          <ion-label class="add-item-label">Add Item</ion-label>
+          <ion-icon slot="end" name="add-circle-outline"></ion-icon>
+        </ion-item>
+        <!-- list -->
+        <div *ngIf="itemFormArray.length > 0" formArrayName="addedItem">
+          <ion-item class="internal-form-item" *ngFor="let item of itemFormArray.controls; let i = index"
+            [formGroupName]="i">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="4">
+                  <ion-label style="font-size: 15px;">
+                    {{ item.get('item_name')?.value }}
+                  </ion-label>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-label style="font-size: 15px;">
+                    {{ item.get('unit_name')?.value }}
+                  </ion-label>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-item class="internal-form-item">
+                    <ion-label class="internal-form-label" position="floating">Select Item Ledgers</ion-label>
+                    <ion-select formControlName="select_item_ledgers" interface="alert">
+                      <ion-select-option *ngFor="let purchase of purchaseList" [value]="purchase.ledger_id">
+                        {{ purchase.ledger_name }}
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row class="ion-align-items-center">
+                <ion-col size="5">
+                  <ion-item>
+                    <ion-label position="floating">Quantity</ion-label>
+                    <ion-input formControlName="quantity" type="number"></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="5">
+                  <ion-item>
+                    <ion-label position="floating">Amount</ion-label>
+                    <ion-input formControlName="amount" type="number"></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="2" style="text-align: right;">
+                  <ion-button fill="clear" (click)="deleteItem(i)">
+                    <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </div>
+      </ion-item-group>
+      <!-- Add More Ledgers -->
+      <ion-item-group>
+        <ion-item detail="false" lines="none" button routerLink="/dashboard/transaction/add-more-lagers">
+          <ion-label class="add-item-label">Add More Ledgers</ion-label>
+          <ion-icon slot="end" name="add-circle-outline"></ion-icon>
+        </ion-item>
+        <div *ngIf="lagersFormArray.length > 0" formArrayName="lagers">
+          <ion-item class="internal-form-item" *ngFor="let lager of lagersFormArray.controls; let i = index"
+            [formGroupName]="i">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-label style="font-size: 15px;">
+                    {{ lager.get('ledger_name')?.value }}
+                  </ion-label>
+                </ion-col>
+              </ion-row>
+              <ion-row class="ion-align-items-center">
+                <ion-col size="5">
+                  <ion-item>
+                    <ion-label position="floating">Percentage</ion-label>
+                    <ion-input formControlName="percentage" type="number" max="99"></ion-input>
+                  </ion-item>
+                  <div *ngIf="lager.get('percentage')?.hasError('max') && lager.get('percentage')?.touched"
+                    style="color: var(--ion-color-danger); font-size: 12px; padding-left: 16px;">
+                    Percentage cannot be more than 99.
+                  </div>
+                </ion-col>
+                <ion-col size="5">
+                  <ion-item>
+                    <ion-label position="floating">Amount</ion-label>
+                    <ion-input formControlName="amount" type="number" [disabled]="true"></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="2" style="text-align: right;">
+                  <ion-button fill="clear" (click)="editLager(i)">
+                    <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+                  </ion-button>
+                  <ion-button fill="clear" (click)="deleteLager(i)">
+                    <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </div>
+      </ion-item-group>
+      <ion-item-group>
+        <ion-item detail="false" lines="none" button routerLink="/dashboard/transaction/add-bill-sundry-details">
+          <ion-label class="add-item-label">Add Bill Sundry Details</ion-label>
+          <ion-icon slot="end" name="add-circle-outline"></ion-icon>
+        </ion-item>
+        <div *ngIf="billSundryDetailsFormArray.length > 0" formArrayName="voucherBillSundryDetail">
+          <ion-item-group class="internal-form-item" style="display: flex; flex-direction: row;"
+            *ngFor="let lager of billSundryDetailsFormArray?.controls; let i = index" [formGroupName]="i">
+            <ion-item>
+              <ion-label class="internal-form-label" position="floating">Cost Center</ion-label>
+              <ion-select formControlName="bill_sundry_type_id" interface="alert">
+                <ion-select-option *ngFor="let bill of bill_sundry" [value]="bill.id">
+                  {{ bill.name }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Amount</ion-label>
+              <ion-input formControlName="bill_sundry_amount" type="number"></ion-input>
+            </ion-item>
+          </ion-item-group>
+        </div>
+      </ion-item-group>
+      <ion-item class="internal-form-item">
+        <ion-label class="internal-form-label" position="floating">Narration</ion-label>
+        <ion-textarea formControlName="narration" rows="5"></ion-textarea>
+      </ion-item>
+      <ion-item class="internal-form-item">
+        <ion-label>Gross Total</ion-label>
+        <ion-label slot="end">{{purchaseForm.get('grossTotal')?.value || "0.0"}}</ion-label>
+      </ion-item>
+      <ion-item class="internal-form-item">
+        <ion-label>Discount Total</ion-label>
+        <ion-label slot="end">{{purchaseForm.get('discountTotal')?.value || "0.0"}}</ion-label>
+      </ion-item>
+      <ion-item class="internal-form-item">
+        <ion-label>Taxable</ion-label>
+        <ion-label slot="end">{{purchaseForm.get('taxable')?.value || "0.0"}}</ion-label>
+      </ion-item>
+      <ion-item class="internal-form-item">
+        <ion-label>Tax Total</ion-label>
+        <ion-label slot="end">{{purchaseForm.get('taxTotal')?.value || "0.0"}}</ion-label>
+      </ion-item>
+      <ion-item class="internal-form-item">
+        <ion-label>Billing Sundry Amount</ion-label>
+        <ion-label slot="end">{{purchaseForm.get('billingSundryAmount')?.value || "0.0"}}</ion-label>
+      </ion-item>
+      <ion-item class="internal-form-item">
+        <ion-label>Bill Amount</ion-label>
+        <ion-label slot="end">{{purchaseForm.get('billAmount')?.value || "0.0"}}</ion-label>
+      </ion-item>
+      <ion-item class="internal-form-item">
+        <ion-label style="font-weight: bold;">Total Amount</ion-label>
+        <ion-label style="font-weight: bold;" slot="end">{{purchaseForm.get('totalAmount')?.value || "0.0"}}</ion-label>
+      </ion-item>
+    </div>
+  </form>
+</ion-content>

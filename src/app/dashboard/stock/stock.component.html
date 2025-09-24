@@ -1,0 +1,48 @@
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-justify-content-around">
+      <ion-col size="6">
+        <div class="purchase-datetime-outer">
+          <ion-datetime [value]="formattedDate" [pickerFormat]="'DD-MM-YYYY'" placeholder="Select Date"
+            (ionChange)="onDateChange($event)"></ion-datetime>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="purchase-dataType-outer">
+          <span>
+            Latest
+          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="9" viewBox="0 0 13 9" fill="none">
+            <path
+              d="M1.45459 0.243133L6.2991 5.0812L10.9235 0.0323718L12.4118 1.52189L6.36709 8.13577L0.0340788 1.7974L1.45459 0.243133Z"
+              fill="#083D7C" />
+          </svg>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list>
+    <ion-item class="purchase-list-item">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" size-md="12" size-lg="12" class="spaced-spans">
+            <span class="stock-name-span">Adajan</span>
+            <span class="stock-name-span">0.00</span>
+          </ion-col>
+          <ion-col size="12" size-md="12" size-lg="12" class="spaced-spans">
+            <span class="number-of-stock-text-span">3 Items</span>
+            <span class="number-of-stock">N/A</span>
+          </ion-col>
+          <ion-col size=" 12" size-md="12" size-lg="12" class="spaced-spans">
+            <span class="avg-purchase-rate-span">Average Purchase Rate</span>
+            <span class="avg-purchase-rate-span">₹1,57,500.00</span>
+          </ion-col>
+          <ion-col size="12" size-md="12" size-lg="12" class="spaced-spans">
+            <span class="last-purchase-rate-span">Last Purchase Rate</span>
+            <span class="last-purchase-rate-span">₹3,00,000.00</span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+</ion-content>
